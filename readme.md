@@ -3,6 +3,7 @@
 ## Introdução
 
 - Go é uma linguagem com retrocompatibilidade, então tudo que é possível fazer na versão 1.15, é possível fazer na 1.16
+- Go não aceita ";". Todas as linhas simplismente terminam, sem pontuação.
 
 ## Configurando o ambiente com Docker
 
@@ -50,6 +51,7 @@ Em seguida, é preciso instalar as dependências do projeto GO:
 ```sh
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+go get google.golang.org/grpc
 ```
 
 Obs.: Para que as dependências instaladas fiquem no arquivo go.mod (afim de ter uma gestão delas), utilize o comando `go get` em cada dependência (ex.: `go get google.golang.org/protobuf/cmd/protoc-gen-go@latest`)
@@ -85,3 +87,33 @@ Precisamos gerar dois arquivos, um do protobuffer e outro do grpc. Para isso, ex
 
 protoc --proto_path=proto/ proto/*.proto --plugin=$(go env GOPATH)/bin/protoc-gen-go-grpc --go-grpc_out=. --go_out=.
 ```
+
+## Implementando servidor gRPC
+
+Criamos um arquivo "cmd/server/server.go", com o seguinte conteúdo:
+
+```go
+package main
+
+import (
+	"log"
+	"net"
+	"google.golang.org/grpc"
+)
+
+func main () {
+  lis, err := net.Listen("tcp", "localhost:50051")
+
+	if err != nil {
+		log.Fatalf("Could not connect: %v", err)
+	}
+
+	grpcServer := grpc.NewServer()
+
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("Could not serve: %v", err)
+	}
+}
+```
+
+## Fazendo chamadas gRPC
