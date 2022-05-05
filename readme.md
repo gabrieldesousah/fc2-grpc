@@ -116,4 +116,15 @@ func main () {
 }
 ```
 
+## Implementando serviços ao servidor gRPC
+
+Criemos uma pasta chamada services/ com o arquivo user.go
 ## Fazendo chamadas gRPC
+
+Instalando um cliente gRPC
+`brew install evans`
+
+O evans precisa do servidor gRPC no modo "reflection", portanto, é preciso adicionar a seguinte linha no código do server:
+`
+Iniciando o client:
+`evans -r repl --host localhost --port 50051`
