@@ -28,7 +28,7 @@ services:
   app:
     build: .
     ports:
-      - 50021:50021
+      - 50051:50051
     volumes:
       - .:/go/src
 ```
@@ -128,3 +128,7 @@ O evans precisa do servidor gRPC no modo "reflection", portanto, é preciso adic
 `
 Iniciando o client:
 `evans -r repl --host localhost --port 50051`
+
+No evans, para selecionar o serviço do gRPC: `service UserService`  
+Para Fazer a chamada de uma função: `call AddUser`
+

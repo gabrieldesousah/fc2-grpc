@@ -4,6 +4,6 @@ services:
   app:
     build: .
     ports:
-      - 50021:50021
+      - 50051:50051
     volumes:
       - .:/go/src
